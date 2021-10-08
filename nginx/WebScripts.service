@@ -1,0 +1,17 @@
+[Unit]
+Description=The WebScripts Service (This tools run scripts and display the result in a Web Interface.).
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/src/WebScripts/bin/python3 -m WebScripts
+Restart=always
+StandardInput=tty-force
+StandardOutput=inherit
+User=WebScripts
+UMask=077
+WorkingDirectory=/usr/src/WebScripts/
+
+[Install]
+WantedBy=multi-user.target
