@@ -50,7 +50,7 @@ git clone https://github.com/mauricelambert/WebScriptsContainers.git
 
 ##### Build
 
-NOTE: the volume is compatible with the Nginx deployment but not with the Apache deployment because the owner is not the same.
+NOTE: the volume is not compatible with the Nginx deployment and the basic WebScripts container because the owner is not the same.
 
 ```bash
 cd apache
@@ -94,7 +94,7 @@ git clone https://github.com/mauricelambert/WebScriptsContainers.git
 
 ##### Build
 
-NOTE: the volume is compatible with the Nginx deployment but not with the Apache deployment because the owner is not the same.
+NOTE: the volume is compatible with the basic WebScripts container but not with the Apache deployment because the owner is not the same.
 
 ```bash
 cd nginx
