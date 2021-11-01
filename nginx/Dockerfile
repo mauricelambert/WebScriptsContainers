@@ -11,7 +11,7 @@ RUN cd /usr/src && python -m venv WebScripts
 RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=WebScripts" --install-option "--admin-password=${PASS}"'
 
 WORKDIR /usr/src/WebScripts
-RUN chown -R WebScripts:WebScripts /usr/src/WebScripts
+RUN chown WebScripts:WebScripts /usr/src/WebScripts
 
 RUN mkdir -p /usr/src/WebScripts/certificat/
 

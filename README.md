@@ -18,9 +18,9 @@ Sources are available on my [github](https://github.com/mauricelambert/WebScript
 
 Three tags are available on [Docker hub](https://hub.docker.com/r/mauricelambert/webscripts).
 
-1. The WebScripts Server
-2. Deployment of WebScripts Server with Apache and mod_wsgi
-3. Deployment of WebScripts Server with Nginx as HTTPS proxy
+1. The WebScripts Server (tag is the *version*, example: `2.2.1`)
+2. Deployment of WebScripts Server with Apache and mod_wsgi (tag are *apache_\<version>*, example: `apache_2.2.1` and `lastest`, *default container*)
+3. Deployment of WebScripts Server with Nginx as HTTPS proxy (tag is *nginx_\<version>*, example: `nginx_2.2.1`)
 
 Dockerfiles are available on my [github](https://github.com/mauricelambert/WebScriptsContainers).
 
@@ -28,16 +28,30 @@ Dockerfiles are available on my [github](https://github.com/mauricelambert/WebSc
 
 #### Docker hub
 
+##### Demo
+
+[![Deploy WebScripts - Youtube](https://img.youtube.com/vi/NhRpaRCNVVs/0.jpg)](http://www.youtube.com/watch?v=NhRpaRCNVVs)
+
+*Deploy WebScripts with Docker - Youtube video*
+
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:apache_2.1.4
+docker pull mauricelambert/webscripts:apache_2.2.1
+```
+
+```bash
+docker pull mauricelambert/webscripts:latest
+```
+
+```bash
+docker pull mauricelambert/webscripts
 ```
 
 ##### Launch
 
 ```bash
-docker run -d mauricelambert/webscripts:apache_2.1.4
+docker run -d mauricelambert/webscripts:apache_2.2.1
 ```
 
 #### Github
@@ -71,17 +85,17 @@ docker run -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscri
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:nginx_2.1.4
+docker pull mauricelambert/webscripts:nginx_2.2.1
 ```
 
 ##### Launch
 
 ```bash
-docker run -it --rm mauricelambert/webscripts:nginx_2.1.4
+docker run -it --rm mauricelambert/webscripts:nginx_2.2.1
 ```
 
 ```bash
-docker run -d mauricelambert/webscripts:nginx_2.1.4
+docker run -d mauricelambert/webscripts:nginx_2.2.1
 ```
 
 #### Github
@@ -117,17 +131,17 @@ docker run -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=webscripts_dat
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:2.1.4
+docker pull mauricelambert/webscripts:2.2.1
 ```
 
 ##### Launch
 
 ```bash
-docker run -it --rm mauricelambert/webscripts:2.1.4
+docker run -it --rm mauricelambert/webscripts:2.2.1
 ```
 
 ```bash
-docker run -d mauricelambert/webscripts:2.1.4
+docker run -d mauricelambert/webscripts:2.2.1
 ```
 
 #### Github

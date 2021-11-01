@@ -26,7 +26,8 @@ RUN echo "ServerTokens Prod" >> /etc/apache2/apache2.conf
 RUN rm -f /etc/apache2/conf-available/serve-cgi-bin.conf
 RUN rm -f /etc/apache2/conf-enabled/serve-cgi-bin.conf
 
-RUN chown -R www-data:www-data /usr/src/WebScripts
+RUN chown www-data:www-data /usr/src/WebScripts
+RUN chown www-data:www-data /usr/src/WebScripts/logs
 
 RUN sed -i "s/192.168.\*,172.16.\*,10.\*,127.0.\*/*/" /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/users.csv
 VOLUME /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/
