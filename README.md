@@ -1,3 +1,5 @@
+![WebScripts Logo](https://mauricelambert.github.io/info/python/code/WebScripts/small_logo.png "WebScripts logo")
+
 # WebScripts containers - Docker
 
 ## WebScripts
@@ -18,9 +20,9 @@ Sources are available on my [github](https://github.com/mauricelambert/WebScript
 
 Three tags are available on [Docker hub](https://hub.docker.com/r/mauricelambert/webscripts).
 
-1. The WebScripts Server (tag is the *version*, example: `2.2.1`)
-2. Deployment of WebScripts Server with Apache and mod_wsgi (tag are *apache_\<version>*, example: `apache_2.2.1` and `lastest`, *default container*)
-3. Deployment of WebScripts Server with Nginx as HTTPS proxy (tag is *nginx_\<version>*, example: `nginx_2.2.1`)
+1. The WebScripts Server (tag is the *version*, example: `2.4.9`)
+2. Deployment of WebScripts Server with Apache and mod_wsgi (tag are *apache_\<version>*, example: `apache_2.4.9` and `lastest`, *default container*)
+3. Deployment of WebScripts Server with Nginx as HTTPS proxy (tag is *nginx_\<version>*, example: `nginx_2.4.9`)
 
 Dockerfiles are available on my [github](https://github.com/mauricelambert/WebScriptsContainers).
 
@@ -36,22 +38,36 @@ Dockerfiles are available on my [github](https://github.com/mauricelambert/WebSc
 
 ##### Download
 
-```bash
-docker pull mauricelambert/webscripts:apache_2.2.1
-```
-
-```bash
-docker pull mauricelambert/webscripts:latest
-```
+Using default docker image:
 
 ```bash
 docker pull mauricelambert/webscripts
 ```
 
-##### Launch
+Using default docker image:
 
 ```bash
-docker run -d mauricelambert/webscripts:apache_2.2.1
+docker pull mauricelambert/webscripts:latest
+```
+
+Using specific version of WebScripts:
+
+```bash
+docker pull mauricelambert/webscripts:apache_2.4.9
+```
+
+##### Run
+
+For test:
+
+```bash
+docker run -d mauricelambert/webscripts:apache_2.4.9
+```
+
+For deployment:
+
+```bash
+docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d mauricelambert/webscripts:apache_2.4.9
 ```
 
 #### Github
@@ -74,8 +90,16 @@ docker volume create apache_webscripts_data
 
 ##### Run
 
+For test:
+
 ```bash
-docker run -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d apache_webscripts
+docker run -d apache_webscripts
+```
+
+For deployment:
+
+```bash
+docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d apache_webscripts
 ```
 
 ### WebScripts with Nginx as HTTPS proxy
@@ -85,17 +109,21 @@ docker run -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscri
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:nginx_2.2.1
+docker pull mauricelambert/webscripts:nginx_2.4.9
 ```
 
-##### Launch
+##### Run
+
+For test:
 
 ```bash
-docker run -it --rm mauricelambert/webscripts:nginx_2.2.1
+docker run -it --rm mauricelambert/webscripts:nginx_2.4.9
 ```
 
+For deployment:
+
 ```bash
-docker run -d mauricelambert/webscripts:nginx_2.2.1
+docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d mauricelambert/webscripts:nginx_2.4.9
 ```
 
 #### Github
@@ -118,8 +146,16 @@ docker volume create webscripts_data
 
 ##### Run
 
+For test:
+
 ```bash
-docker run -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d nginx_webscripts
+docker run -it --rm nginx_webscripts
+```
+
+For deployment:
+
+```bash
+docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d nginx_webscripts
 ```
 
 ### Simple WebScripts
@@ -131,17 +167,21 @@ docker run -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=webscripts_dat
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:2.2.1
+docker pull mauricelambert/webscripts:2.4.9
 ```
 
-##### Launch
+##### Run
+
+For test:
 
 ```bash
-docker run -it --rm mauricelambert/webscripts:2.2.1
+docker run -it --rm mauricelambert/webscripts:2.4.9
 ```
 
+For deployment:
+
 ```bash
-docker run -d mauricelambert/webscripts:2.2.1
+docker run --restart always -p 80:8000/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d mauricelambert/webscripts:2.4.9
 ```
 
 #### Github
@@ -164,8 +204,16 @@ docker volume create webscripts_data
 
 ##### Run
 
+For test:
+
 ```bash
-docker run -p 80:8000/tcp --mount type=volume,source=webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d webscripts
+docker run -it --rm webscripts
+```
+
+For deployment:
+
+```bash
+docker run --restart always -p 80:8000/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d webscripts
 ```
 
 ### Useful commands
