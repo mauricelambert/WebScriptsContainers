@@ -8,7 +8,10 @@ RUN apt-get install -y libexpat1 apache2 apache2-utils ssl-cert libapache2-mod-w
 RUN cd /usr/src && python -m venv WebScripts
 RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=www-data" --install-option "--admin-password=${PASS}"'
 
-WORKDIR /usr/src/WebScripts 
+WORKDIR /usr/src/WebScripts
+RUN touch /usr/src/WebScripts/audit.html && touch /usr/src/WebScripts/audit.txt && touch /usr/src/WebScripts/audit.json && chown www-data:www-data /usr/src/WebScripts/audit.*
+
+RUN echo "{}" > /usr/src/WebScripts/webscripts_file_integrity.json && echo "{}" > /usr/src/WebScripts/uploads_file_integrity.json && echo "{}" > /usr/src/WebScripts/logs_checks.json && chown www-data:www-data /usr/src/WebScripts/*_file_integrity.json /usr/src/WebScripts/logs_checks.json
 
 RUN mkdir -p /usr/src/WebScripts/logs/ 
 RUN mkdir -p /usr/src/WebScripts/certificat/ 
@@ -26,7 +29,7 @@ RUN echo "ServerTokens Prod" >> /etc/apache2/apache2.conf
 RUN rm -f /etc/apache2/conf-available/serve-cgi-bin.conf
 RUN rm -f /etc/apache2/conf-enabled/serve-cgi-bin.conf
 
-RUN chown www-data:www-data /usr/src/WebScripts
+RUN chown root:root /usr/src/WebScripts
 RUN chown www-data:www-data /usr/src/WebScripts/logs
 
 RUN sed -i "s/192.168.\*,172.16.\*,10.\*,127.0.\*/*/" /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/users.csv
@@ -39,3 +42,4 @@ RUN a2enconf wsgi
 RUN a2enmod ssl
 
 ENTRYPOINT [ "apachectl", "-D", "FOREGROUND" ]
+

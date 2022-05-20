@@ -12,11 +12,17 @@ RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScr
 
 WORKDIR /usr/src/WebScripts
 RUN chown WebScripts:WebScripts /usr/src/WebScripts
+RUN touch /usr/src/WebScripts/audit.html && touch /usr/src/WebScripts/audit.txt && touch /usr/src/WebScripts/audit.json && chown WebScripts:WebScripts /usr/src/WebScripts/audit.*
+
+RUN echo "{}" > /usr/src/WebScripts/webscripts_file_integrity.json && echo "{}" > /usr/src/WebScripts/uploads_file_integrity.json && echo "{}" > /usr/src/WebScripts/logs_checks.json && chown WebScripts:WebScripts /usr/src/WebScripts/*_file_integrity.json /usr/src/WebScripts/logs_checks.json
+
+RUN mkdir -p /usr/src/WebScripts/logs/
+RUN chown WebScripts:WebScripts /usr/src/WebScripts/logs/
 
 RUN mkdir -p /usr/src/WebScripts/certificat/
-
 COPY WebScripts.crt /usr/src/WebScripts/certificat/WebScripts.crt
 COPY WebScripts.pem /usr/src/WebScripts/certificat/WebScripts.pem
+
 COPY WebScripts.service /lib/systemd/system/WebScripts.service
 COPY WebScripts.conf /etc/nginx/sites-available/WebScripts.conf
 
@@ -33,4 +39,7 @@ EXPOSE 443/tcp
 RUN echo "nginx -g 'daemon off;' &" > /bin/launcher.sh
 RUN echo "sudo -u WebScripts bin/python3 -m WebScripts" >> /bin/launcher.sh
 
+RUN chown root:root /usr/src/WebScripts
+
 ENTRYPOINT [ "bash", "/bin/launcher.sh" ]
+
