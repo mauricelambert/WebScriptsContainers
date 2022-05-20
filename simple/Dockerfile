@@ -11,7 +11,14 @@ RUN cd /usr/src && python -m venv WebScripts
 RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=WebScripts" --install-option "--admin-password=${PASS}"'
 
 WORKDIR /usr/src/WebScripts
-RUN chown WebScripts:WebScripts /usr/src/WebScripts
+RUN touch /usr/src/WebScripts/audit.html && touch /usr/src/WebScripts/audit.txt && touch /usr/src/WebScripts/audit.json && chown WebScripts:WebScripts /usr/src/WebScripts/audit.*
+
+RUN echo "{}" > /usr/src/WebScripts/webscripts_file_integrity.json && echo "{}" > /usr/src/WebScripts/uploads_file_integrity.json && echo "{}" > /usr/src/WebScripts/logs_checks.json && chown WebScripts:WebScripts /usr/src/WebScripts/*_file_integrity.json /usr/src/WebScripts/logs_checks.json
+
+RUN mkdir -p /usr/src/WebScripts/logs/
+RUN chown WebScripts:WebScripts /usr/src/WebScripts/logs/
+
+RUN chown root:root /usr/src/WebScripts
 
 RUN sed -i "s/192.168.\*,172.16.\*,10.\*,127.0.\*/*/" /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/users.csv
 VOLUME /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/
@@ -19,3 +26,4 @@ VOLUME /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/
 EXPOSE 80/tcp
 
 ENTRYPOINT [ "sudo", "-u", "WebScripts", "bin/python3", "-m", "WebScripts", "-i", "" ]
+
