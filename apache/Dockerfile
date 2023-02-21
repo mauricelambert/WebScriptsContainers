@@ -6,13 +6,9 @@ RUN apt-get update
 RUN apt-get install -y libexpat1 apache2 apache2-utils ssl-cert libapache2-mod-wsgi-py3  
 
 RUN cd /usr/src && python -m venv WebScripts
-RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=www-data" --install-option "--admin-password=${PASS}"'
+RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=www-data" --install-option "--admin-password=${PASS}" && python -m WebScripts.harden -p "${PASS}" -o "www-data" -d "."'
 
 WORKDIR /usr/src/WebScripts
-RUN touch /usr/src/WebScripts/audit.html && touch /usr/src/WebScripts/audit.txt && touch /usr/src/WebScripts/audit.json && chown www-data:www-data /usr/src/WebScripts/audit.*
-
-RUN echo "{}" > /usr/src/WebScripts/webscripts_file_integrity.json && echo "{}" > /usr/src/WebScripts/uploads_file_integrity.json && echo "{}" > /usr/src/WebScripts/logs_checks.json && chown www-data:www-data /usr/src/WebScripts/*_file_integrity.json /usr/src/WebScripts/logs_checks.json
-
 RUN mkdir -p /usr/src/WebScripts/logs/ 
 RUN mkdir -p /usr/src/WebScripts/certificat/ 
 
@@ -32,8 +28,8 @@ RUN rm -f /etc/apache2/conf-enabled/serve-cgi-bin.conf
 RUN chown root:root /usr/src/WebScripts
 RUN chown www-data:www-data /usr/src/WebScripts/logs
 
-RUN sed -i "s/192.168.\*,172.16.\*,10.\*,127.0.\*/*/" /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/users.csv
-VOLUME /usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data/
+RUN sed -i 's/192\.168\.\*,172.16\.\*,10\.\*,127\.0\.\*/*/' /usr/src/WebScripts/data/users.csv
+VOLUME /usr/src/WebScripts/data/
 
 EXPOSE 80/tcp
 EXPOSE 443/tcp
