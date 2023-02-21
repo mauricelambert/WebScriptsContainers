@@ -20,9 +20,9 @@ Sources are available on my [github](https://github.com/mauricelambert/WebScript
 
 Three tags are available on [Docker hub](https://hub.docker.com/r/mauricelambert/webscripts).
 
-1. The WebScripts Server (tag is the *version*, example: `2.4.9`)
-2. Deployment of WebScripts Server with Apache and mod_wsgi (tag are *apache_\<version>*, example: `apache_2.4.9` and `lastest`, *default container*)
-3. Deployment of WebScripts Server with Nginx as HTTPS proxy (tag is *nginx_\<version>*, example: `nginx_2.4.9`)
+1. The WebScripts Server (tag is the *version*, example: `3.0.11`)
+2. Deployment of WebScripts Server with Apache and mod_wsgi (tag are *apache_\<version>*, example: `apache_3.0.11` and `lastest`, *default container*)
+3. Deployment of WebScripts Server with Nginx as HTTPS proxy (tag is *nginx_\<version>*, example: `nginx_3.0.11`)
 
 Dockerfiles are available on my [github](https://github.com/mauricelambert/WebScriptsContainers).
 
@@ -53,7 +53,7 @@ docker pull mauricelambert/webscripts:latest
 Using specific version of WebScripts:
 
 ```bash
-docker pull mauricelambert/webscripts:apache_2.4.9
+docker pull mauricelambert/webscripts:apache_3.0.11
 ```
 
 ##### Run
@@ -61,13 +61,13 @@ docker pull mauricelambert/webscripts:apache_2.4.9
 For test:
 
 ```bash
-docker run -d mauricelambert/webscripts:apache_2.4.9
+docker run --name WebScripts -d mauricelambert/webscripts:apache_3.0.11
 ```
 
 For deployment:
 
 ```bash
-docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d mauricelambert/webscripts:apache_2.4.9
+docker run --name WebScripts --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/data -d mauricelambert/webscripts:apache_3.0.11
 ```
 
 #### Github
@@ -80,7 +80,7 @@ git clone https://github.com/mauricelambert/WebScriptsContainers.git
 
 ##### Build
 
-NOTE: the volume is not compatible with the Nginx deployment and the basic WebScripts container because the owner is not the same.
+NOTE: the volume is not compatible with the Nginx deployment and the basic WebScripts container because the owner is not the same, you should change the owner of each files to use the apache deployment volume with nginx container or the basic WebScripts container.
 
 ```bash
 cd apache
@@ -93,13 +93,13 @@ docker volume create apache_webscripts_data
 For test:
 
 ```bash
-docker run -d apache_webscripts
+docker run --name WebScripts -d apache_webscripts
 ```
 
 For deployment:
 
 ```bash
-docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d apache_webscripts
+docker run --name WebScripts --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/data -d apache_webscripts
 ```
 
 ### WebScripts with Nginx as HTTPS proxy
@@ -109,7 +109,7 @@ docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,sour
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:nginx_2.4.9
+docker pull mauricelambert/webscripts:nginx_3.0.11
 ```
 
 ##### Run
@@ -117,13 +117,13 @@ docker pull mauricelambert/webscripts:nginx_2.4.9
 For test:
 
 ```bash
-docker run -it --rm mauricelambert/webscripts:nginx_2.4.9
+docker run --name WebScripts -it --rm mauricelambert/webscripts:nginx_3.0.11
 ```
 
 For deployment:
 
 ```bash
-docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d mauricelambert/webscripts:nginx_2.4.9
+docker run --name WebScripts --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/data -d mauricelambert/webscripts:nginx_2.4.9
 ```
 
 #### Github
@@ -136,7 +136,7 @@ git clone https://github.com/mauricelambert/WebScriptsContainers.git
 
 ##### Build
 
-NOTE: the volume is compatible with the basic WebScripts container but not with the Apache deployment because the owner is not the same.
+NOTE: the volume is compatible with the basic WebScripts container but not with the Apache deployment because the owner is not the same, you should change the owner of each files to use the nginx deployment volume with apache container.
 
 ```bash
 cd nginx
@@ -149,13 +149,13 @@ docker volume create webscripts_data
 For test:
 
 ```bash
-docker run -it --rm nginx_webscripts
+docker run --name WebScripts -it --rm nginx_webscripts
 ```
 
 For deployment:
 
 ```bash
-docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d nginx_webscripts
+docker run --name WebScripts --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/data -d nginx_webscripts
 ```
 
 ### Simple WebScripts
@@ -167,7 +167,7 @@ docker run --restart always -p 80:80/tcp -p 443:443/tcp --mount type=volume,sour
 ##### Download
 
 ```bash
-docker pull mauricelambert/webscripts:2.4.9
+docker pull mauricelambert/webscripts:3.0.11
 ```
 
 ##### Run
@@ -175,13 +175,13 @@ docker pull mauricelambert/webscripts:2.4.9
 For test:
 
 ```bash
-docker run -it --rm mauricelambert/webscripts:2.4.9
+docker run --name WebScripts -it --rm mauricelambert/webscripts:3.0.11
 ```
 
 For deployment:
 
 ```bash
-docker run --restart always -p 80:8000/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d mauricelambert/webscripts:2.4.9
+docker run --name WebScripts --restart always -p 80:8000/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/data -d mauricelambert/webscripts:3.0.11
 ```
 
 #### Github
@@ -194,7 +194,7 @@ git clone https://github.com/mauricelambert/WebScriptsContainers.git
 
 ##### Build
 
-NOTE: the volume is compatible with the Nginx deployment but not with the Apache deployment because the owner is not the same.
+NOTE: the volume is compatible with the Nginx deployment but not with the Apache deployment because the owner is not the same, you should change the owner of each files to use the basic WebScripts deployment volume with apache container.
 
 ```bash
 cd simple
@@ -207,13 +207,13 @@ docker volume create webscripts_data
 For test:
 
 ```bash
-docker run -it --rm webscripts
+docker run --name WebScripts -it --rm webscripts
 ```
 
 For deployment:
 
 ```bash
-docker run --restart always -p 80:8000/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data -d webscripts
+docker run --name WebScripts --restart always -p 80:8000/tcp --mount type=volume,source=apache_webscripts_data,target=/usr/src/WebScripts/data -d webscripts
 ```
 
 ### Useful commands
@@ -227,13 +227,13 @@ docker logs <dockerID>
 #### Pull files
 
 ```bash
-docker cp <dockerID>:/usr/src/WebScripts/lib/python3.9/site-packages/WebScripts/data data
-docker cp <dockerID>:/usr/src/WebScripts/audit.html audit.html
+docker cp <dockerID>:/usr/src/WebScripts/data data
+docker cp <dockerID>:/usr/src/WebScripts/hardening/audit.html audit.html
 docker cp <dockerID>:/usr/src/WebScripts/logs logs
 ```
 
 #### Interactive Bash in the container
 
 ```bash
-docker exec -it <dockerID> bash
+docker exec -it WebScripts bash
 ```
