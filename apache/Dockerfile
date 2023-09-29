@@ -6,7 +6,7 @@ RUN apt-get update
 RUN apt-get install -y libexpat1 apache2 apache2-utils ssl-cert libapache2-mod-wsgi-py3  
 
 RUN cd /usr/src && python -m venv WebScripts
-RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=www-data" --install-option "--admin-password=${PASS}" && python -m WebScripts.harden -p "${PASS}" -o "www-data" -d "."'
+RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts && python -m WebScripts.harden -p "${PASS}" -o "www-data" -d "."'
 
 WORKDIR /usr/src/WebScripts
 RUN mkdir -p /usr/src/WebScripts/logs/ 
