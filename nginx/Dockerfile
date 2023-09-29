@@ -8,7 +8,7 @@ RUN apt-get install -y nginx sudo
 RUN useradd --system --no-create-home --shell /bin/false WebScripts
 
 RUN cd /usr/src && python -m venv WebScripts
-RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts --install-option "--owner=WebScripts" --install-option "--admin-password=${PASS}" && python -m WebScripts.harden -p "${PASS}" -o "WebScripts" -d "."'
+RUN bash -c 'cd /usr/src/WebScripts && source bin/activate && pip install WebScripts && python -m WebScripts.harden -p "${PASS}" -o "WebScripts" -d "."'
 
 WORKDIR /usr/src/WebScripts
 
